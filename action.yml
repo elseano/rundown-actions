@@ -1,0 +1,7 @@
+name: 'Install Rundown'
+description: 'Installs rundown'
+runs:
+  using: "composite"
+  steps:
+    - run: install.sh
+      shell: bash
