@@ -3,31 +3,8 @@ set -e
 ARCH=$(uname -m)
 SYS=$(uname -o | tr '[:upper:]' '[:lower:]')
 
-case $SYS in
-    linux)
-        if command -v apk; then
-            EXT=apk
-            INSTALL="apk add {}"
-        elif command -v yum; then
-            EXT=yum
-            INSTALL="yum install {}"
-        elif command -v rpm; then
-            EXT=rpm
-            INSTALL="rpm install {}"
-        elif command -v apt-get; then
-            EXT=deb
-            INSTALL="apt-get install {}"
-        else
-            EXT=tar.gz
-            INSTALL="tar -xzf {} && sudo cp rundown /usr/bin"
-        fi
-        ;;
-    
-    darwin)
-        EXT=tar.gz
-        INSTALL="tar -xzf {} && sudo cp rundown /usr/bin"
-        ;;
-esac
+EXT=tar.gz
+INSTALL="tar -xzf"
 
 echo "Searching for ${SYS}_${ARCH}.$EXT"
 
@@ -52,12 +29,8 @@ fi
 
 echo "Installing $FNAME..."
 
-CMD=`echo $INSTALL | sed "s/{}/$FNAME/g"`
+$INSTALL $FNAME
 
-echo $CMD
-sh -c "$CMD"
-
-rm $FNAME
-
-echo "Instalation complete. Rundown at:"
-which rundown
+mkdir -p ~/.rundown/bin
+cp rundown ~/.rundown/bin/
+echo "PATH=$HOME/.rundown/bin:$PATH" >> $GITHUB_ENV
