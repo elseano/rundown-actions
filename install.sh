@@ -58,3 +58,5 @@ echo $CMD
 sh -c "$CMD"
 
 rm $FNAME
+
+which rundown
