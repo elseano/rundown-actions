@@ -1,7 +1,7 @@
 set -e
 
 ARCH=$(uname -m)
-SYS=$(uname -o | tr '[:upper:]' '[:lower:]')
+SYS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 EXT=tar.gz
 INSTALL="tar -xzf"
@@ -9,7 +9,10 @@ INSTALL="tar -xzf"
 echo "Searching for ${SYS}_${ARCH}.$EXT"
 
 LOC=$(curl -s https://api.github.com/repos/elseano/rundown/releases/latest \
-| grep "browser_download_url.*$SYS_$ARCH.$EXT" \
+| grep "browser_download_url.*" \
+| grep $SYS \
+| grep $ARCH \
+| grep $EXT \
 | head -n 1 \
 | cut -d : -f 2,3 \
 | tr -d \")
