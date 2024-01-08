@@ -59,4 +59,5 @@ sh -c "$CMD"
 
 rm $FNAME
 
+echo "Instalation complete. Rundown at:"
 which rundown
