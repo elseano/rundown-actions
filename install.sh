@@ -1,4 +1,3 @@
-#!/bin/bash
 set -e
 
 ARCH=$(uname -m)
